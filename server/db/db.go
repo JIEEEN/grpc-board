@@ -37,7 +37,7 @@ func InitDB() {
 	log.Printf("Success to create database: %s", dbName)
 
 	createTable()
-	log.Printf("Success to create tables")
+	log.Print("Success to create tables")
 }
 
 func createDB() string {
