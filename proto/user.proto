@@ -9,15 +9,19 @@ service UserService {
     rpc GetAllUser (google.protobuf.Empty) returns (UsersInfo);
 }
 
-message UserRequest {
-    string id = 1;
-}
-message UserResponse {
+message User {
     string id = 1;
     string email = 2;
     string nickname = 3;
 }
 
+message UserRequest {
+    string id = 1;
+}
+message UserResponse {
+    User user = 1;
+}
+
 message UsersInfo {
-    repeated UserResponse users = 1;
+    repeated User users = 1;
 }
