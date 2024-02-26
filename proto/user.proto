@@ -1,0 +1,23 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+
+package user;
+option go_package = "github.com/JIEEEN/grpc-board";
+
+service UserService {
+    rpc GetUserId (UserRequest) returns (UserResponse);
+    rpc GetAllUser (google.protobuf.Empty) returns (UsersInfo);
+}
+
+message UserRequest {
+    string id = 1;
+}
+message UserResponse {
+    string id = 1;
+    string email = 2;
+    string nickname = 3;
+}
+
+message UsersInfo {
+    repeated UserResponse users = 1;
+}

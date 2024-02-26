@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package reply;
+option go_package = "github.com/JIEEEN/grpc-board";
+
+service ReplyService {
+    rpc CreateReply (CreateReplyRequest) returns (CreateReplyResponse);
+    rpc GetAllReplyBoard (AllReplyRequest) returns (AllReplyResponse);
+    rpc UpdateReply (UpdateReplyRequest) returns (UpdaetReplyResponse);
+    rpc DeleteReply (DeleteReplyRequest) returns (DeleteReplyResponse);
+}
+
+message Reply {
+    string id = 1;
+    string user_id = 2;
+    string nickname = 3;
+    string board_id = 4;
+    string contents = 5;
+}
+
+message CreateReplyRequest {
+    Reply reply = 1;
+}
+message CreateReplyResponse {
+    bool result = 1;
+}
+
+message AllReplyRequest {
+    string board_id = 1;
+}
+message AllReplyResponse {
+    repeated Reply replylist = 1;
+}
+
+message UpdateReplyRequest {
+    Reply reply = 1;
+}
+message UpdateReplyResponse {
+    bool result = 1;
+}
+
+message DeleteReplyRequest {
+    string id = 1;
+}
+message DeleteReplyResponse {
+    bool result = 1;
+}
