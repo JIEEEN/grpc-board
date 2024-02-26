@@ -1,5 +1,4 @@
 syntax = "proto3";
-import "google/protobuf/empty.proto";
 
 package auth;
 option go_package = "github.com/JIEEEN/grpc-board";

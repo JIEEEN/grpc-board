@@ -6,7 +6,7 @@ option go_package = "github.com/JIEEEN/grpc-board";
 service ReplyService {
     rpc CreateReply (CreateReplyRequest) returns (CreateReplyResponse);
     rpc GetAllReplyBoard (AllReplyRequest) returns (AllReplyResponse);
-    rpc UpdateReply (UpdateReplyRequest) returns (UpdaetReplyResponse);
+    rpc UpdateReply (UpdateReplyRequest) returns (UpdateReplyResponse);
     rpc DeleteReply (DeleteReplyRequest) returns (DeleteReplyResponse);
 }
 
