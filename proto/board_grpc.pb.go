@@ -27,7 +27,7 @@ type BoardServiceClient interface {
 	CreateBoard(ctx context.Context, in *CreateBoardRequest, opts ...grpc.CallOption) (*CreateBoardResponse, error)
 	ReadBoard(ctx context.Context, in *ReadBoardRequest, opts ...grpc.CallOption) (*ReadBoardResponse, error)
 	UpdateBoard(ctx context.Context, in *UpdateBoardRequest, opts ...grpc.CallOption) (*UpdateBoardRequest, error)
-	DeleteBoard(ctx context.Context, in *DeleteBoardRequest, opts ...grpc.CallOption) (*DeleteBoardRequest, error)
+	DeleteBoard(ctx context.Context, in *DeleteBoardRequest, opts ...grpc.CallOption) (*DeleteBoardResponse, error)
 }
 
 type boardServiceClient struct {
@@ -74,8 +74,8 @@ func (c *boardServiceClient) UpdateBoard(ctx context.Context, in *UpdateBoardReq
 	return out, nil
 }
 
-func (c *boardServiceClient) DeleteBoard(ctx context.Context, in *DeleteBoardRequest, opts ...grpc.CallOption) (*DeleteBoardRequest, error) {
-	out := new(DeleteBoardRequest)
+func (c *boardServiceClient) DeleteBoard(ctx context.Context, in *DeleteBoardRequest, opts ...grpc.CallOption) (*DeleteBoardResponse, error) {
+	out := new(DeleteBoardResponse)
 	err := c.cc.Invoke(ctx, "/board.BoardService/DeleteBoard", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -91,7 +91,7 @@ type BoardServiceServer interface {
 	CreateBoard(context.Context, *CreateBoardRequest) (*CreateBoardResponse, error)
 	ReadBoard(context.Context, *ReadBoardRequest) (*ReadBoardResponse, error)
 	UpdateBoard(context.Context, *UpdateBoardRequest) (*UpdateBoardRequest, error)
-	DeleteBoard(context.Context, *DeleteBoardRequest) (*DeleteBoardRequest, error)
+	DeleteBoard(context.Context, *DeleteBoardRequest) (*DeleteBoardResponse, error)
 	mustEmbedUnimplementedBoardServiceServer()
 }
 
@@ -111,7 +111,7 @@ func (UnimplementedBoardServiceServer) ReadBoard(context.Context, *ReadBoardRequ
 func (UnimplementedBoardServiceServer) UpdateBoard(context.Context, *UpdateBoardRequest) (*UpdateBoardRequest, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateBoard not implemented")
 }
-func (UnimplementedBoardServiceServer) DeleteBoard(context.Context, *DeleteBoardRequest) (*DeleteBoardRequest, error) {
+func (UnimplementedBoardServiceServer) DeleteBoard(context.Context, *DeleteBoardRequest) (*DeleteBoardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteBoard not implemented")
 }
 func (UnimplementedBoardServiceServer) mustEmbedUnimplementedBoardServiceServer() {}
