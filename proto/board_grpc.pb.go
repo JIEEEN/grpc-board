@@ -26,7 +26,7 @@ type BoardServiceClient interface {
 	BoardList(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*BoardListResponse, error)
 	CreateBoard(ctx context.Context, in *CreateBoardRequest, opts ...grpc.CallOption) (*CreateBoardResponse, error)
 	ReadBoard(ctx context.Context, in *ReadBoardRequest, opts ...grpc.CallOption) (*ReadBoardResponse, error)
-	UpdateBoard(ctx context.Context, in *UpdateBoardRequest, opts ...grpc.CallOption) (*UpdateBoardRequest, error)
+	UpdateBoard(ctx context.Context, in *UpdateBoardRequest, opts ...grpc.CallOption) (*UpdateBoardResponse, error)
 	DeleteBoard(ctx context.Context, in *DeleteBoardRequest, opts ...grpc.CallOption) (*DeleteBoardResponse, error)
 }
 
@@ -65,8 +65,8 @@ func (c *boardServiceClient) ReadBoard(ctx context.Context, in *ReadBoardRequest
 	return out, nil
 }
 
-func (c *boardServiceClient) UpdateBoard(ctx context.Context, in *UpdateBoardRequest, opts ...grpc.CallOption) (*UpdateBoardRequest, error) {
-	out := new(UpdateBoardRequest)
+func (c *boardServiceClient) UpdateBoard(ctx context.Context, in *UpdateBoardRequest, opts ...grpc.CallOption) (*UpdateBoardResponse, error) {
+	out := new(UpdateBoardResponse)
 	err := c.cc.Invoke(ctx, "/board.BoardService/UpdateBoard", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -90,7 +90,7 @@ type BoardServiceServer interface {
 	BoardList(context.Context, *emptypb.Empty) (*BoardListResponse, error)
 	CreateBoard(context.Context, *CreateBoardRequest) (*CreateBoardResponse, error)
 	ReadBoard(context.Context, *ReadBoardRequest) (*ReadBoardResponse, error)
-	UpdateBoard(context.Context, *UpdateBoardRequest) (*UpdateBoardRequest, error)
+	UpdateBoard(context.Context, *UpdateBoardRequest) (*UpdateBoardResponse, error)
 	DeleteBoard(context.Context, *DeleteBoardRequest) (*DeleteBoardResponse, error)
 	mustEmbedUnimplementedBoardServiceServer()
 }
@@ -108,7 +108,7 @@ func (UnimplementedBoardServiceServer) CreateBoard(context.Context, *CreateBoard
 func (UnimplementedBoardServiceServer) ReadBoard(context.Context, *ReadBoardRequest) (*ReadBoardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReadBoard not implemented")
 }
-func (UnimplementedBoardServiceServer) UpdateBoard(context.Context, *UpdateBoardRequest) (*UpdateBoardRequest, error) {
+func (UnimplementedBoardServiceServer) UpdateBoard(context.Context, *UpdateBoardRequest) (*UpdateBoardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateBoard not implemented")
 }
 func (UnimplementedBoardServiceServer) DeleteBoard(context.Context, *DeleteBoardRequest) (*DeleteBoardResponse, error) {

@@ -8,7 +8,7 @@ service BoardService {
     rpc BoardList (google.protobuf.Empty) returns (BoardListResponse);
     rpc CreateBoard (CreateBoardRequest) returns (CreateBoardResponse);
     rpc ReadBoard (ReadBoardRequest) returns (ReadBoardResponse);
-    rpc UpdateBoard (UpdateBoardRequest) returns (UpdateBoardRequest);
+    rpc UpdateBoard (UpdateBoardRequest) returns (UpdateBoardResponse);
     rpc DeleteBoard (DeleteBoardRequest) returns (DeleteBoardResponse);
 }
 
