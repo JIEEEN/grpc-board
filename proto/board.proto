@@ -9,7 +9,7 @@ service BoardService {
     rpc CreateBoard (CreateBoardRequest) returns (CreateBoardResponse);
     rpc ReadBoard (ReadBoardRequest) returns (ReadBoardResponse);
     rpc UpdateBoard (UpdateBoardRequest) returns (UpdateBoardRequest);
-    rpc DeleteBoard (DeleteBoardRequest) returns (DeleteBoardRequest);
+    rpc DeleteBoard (DeleteBoardRequest) returns (DeleteBoardResponse);
 }
 
 message Board {
