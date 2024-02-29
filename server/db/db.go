@@ -85,7 +85,7 @@ func createTable(db *sql.DB) {
 		(
 			id int not null auto_increment primary key,
 			user_id int,
-			nickname varchar(50) unique not null,
+			nickname varchar(50) not null,
 			title varchar(255) not null,
 			contents text,
 			create_at timestamp default current_timestamp,
