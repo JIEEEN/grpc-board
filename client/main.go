@@ -1,21 +1,33 @@
 package main
 
 import (
-	"fyne.io/fyne/v2/app"
-	"fyne.io/fyne/v2/container"
-	"fyne.io/fyne/v2/widget"
+	"log"
+	"os"
+
+	"fyne.io/fyne/v2"
+	"github.com/JIEEEN/grpc-board/client/env"
+	"github.com/JIEEEN/grpc-board/client/service"
+	"github.com/JIEEEN/grpc-board/client/ui"
+	"google.golang.org/grpc"
 )
 
-func main() {
-	a := app.New()
-	w := a.NewWindow("Hello")
+func init() {
+	env.InitEnv()
+}
 
-	hello := widget.NewLabel("Hello Fyne!")
-	w.SetContent(container.NewVBox(
-		hello,
-		widget.NewButton("Hi!", func() {
-			hello.SetText("Welcome :)")
-		}),
-	))
+func main() {
+	addr := os.Getenv("GRPC_SERVER_IP") + os.Getenv("GRPC_SERVER_PORT")
+	_, w := ui.AppInit()
+	w.Resize(fyne.NewSize(800, 600))
+
+	conn, err := grpc.Dial(addr, grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("Can't connect to: %v", err)
+	}
+	service.InitService(conn)
+	defer conn.Close()
+
+	ui.MainPage(w)
+
 	w.ShowAndRun()
 }
