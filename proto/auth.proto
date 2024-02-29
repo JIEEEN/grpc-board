@@ -37,6 +37,9 @@ message LogoutResponse {
 
 message MailVerificationRequest {
     string vcode = 1;
+    string email = 2;
+    string password = 3;
+    string nickname = 4;
 }
 message MailVerificationResponse {
     bool result = 1;
