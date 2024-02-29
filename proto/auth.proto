@@ -7,6 +7,7 @@ service AuthService {
     rpc Login (LoginRequest) returns (LoginResponse);
     rpc Register (RegisterRequest) returns (RegisterResponse);
     rpc Logout (LogoutRequest) returns (LogoutResponse);
+    rpc MailVerification (MailVerificationRequest) returns (MailVerificationResponse);
 }
 
 message LoginRequest {
@@ -34,3 +35,9 @@ message LogoutResponse {
     bool result = 1;
 }
 
+message MailVerificationRequest {
+    string vcode = 1;
+}
+message MailVerificationResponse {
+    bool result = 1;
+}
