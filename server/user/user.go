@@ -26,7 +26,7 @@ func (s *server) GetUserId(ctx context.Context, in *pb.UserRequest) (*pb.UserRes
 	var r_id, r_email, r_nickname string
 	err := s.db.QueryRow("select id, email, nickname from users where id = ?", id).Scan(&r_id, &r_email, &r_nickname)
 	if err != nil {
-		log.Fatalf("Failed to execute query: %v", err)
+		log.Printf("Failed to execute query: %v", err)
 		return &pb.UserResponse{}, err
 	}
 
@@ -44,7 +44,7 @@ func (s *server) GetAllUsers(ctx context.Context, in *emptypb.Empty) (*pb.UsersI
 
 	rows, err := s.db.Query("select id, email, nickname from users")
 	if err != nil {
-		log.Fatalf("Failed to execute query: %v", err)
+		log.Printf("Failed to execute query: %v", err)
 		return &pb.UsersInfo{}, err
 	}
 	defer rows.Close()
@@ -53,7 +53,7 @@ func (s *server) GetAllUsers(ctx context.Context, in *emptypb.Empty) (*pb.UsersI
 	for rows.Next() {
 		err = rows.Scan(&r_id, &r_email, &r_nickname)
 		if err != nil {
-			log.Fatalf("Failed to get row data: %v", err)
+			log.Printf("Failed to get row data: %v", err)
 			return &pb.UsersInfo{}, err
 		}
 
