@@ -23,47 +23,35 @@ func NewServer(db *sql.DB) *server {
 func (s *server) GetUserId(ctx context.Context, in *pb.UserRequest) (*pb.UserResponse, error) {
 	id := in.GetId()
 
-	var r_id, r_email, r_nickname string
-	err := s.db.QueryRow("select id, email, nickname from users where id = ?", id).Scan(&r_id, &r_email, &r_nickname)
+	var r *pb.User
+	err := s.db.QueryRow("select * from users where id = ?", id).Scan(r)
 	if err != nil {
 		log.Printf("Failed to execute query: %v", err)
 		return &pb.UserResponse{}, err
 	}
 
-	user := pb.User{
-		Id:       r_id,
-		Email:    r_email,
-		Nickname: r_nickname,
-	}
-
-	return &pb.UserResponse{User: &user}, nil
+	return &pb.UserResponse{User: r}, nil
 }
 
 func (s *server) GetAllUsers(ctx context.Context, in *emptypb.Empty) (*pb.UsersInfo, error) {
 	users := []*pb.User{}
 
-	rows, err := s.db.Query("select id, email, nickname from users")
+	rows, err := s.db.Query("select * from users")
 	if err != nil {
 		log.Printf("Failed to execute query: %v", err)
 		return &pb.UsersInfo{}, err
 	}
 	defer rows.Close()
 
-	var r_id, r_email, r_nickname string
+	var r *pb.User
 	for rows.Next() {
-		err = rows.Scan(&r_id, &r_email, &r_nickname)
+		err = rows.Scan(r)
 		if err != nil {
 			log.Printf("Failed to get row data: %v", err)
 			return &pb.UsersInfo{}, err
 		}
 
-		user := &pb.User{
-			Id:       r_id,
-			Email:    r_email,
-			Nickname: r_nickname,
-		}
-
-		users = append(users, user)
+		users = append(users, r)
 	}
 
 	return &pb.UsersInfo{Users: users}, nil
