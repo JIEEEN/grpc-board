@@ -39,7 +39,7 @@ func (s *server) GetUserId(ctx context.Context, in *pb.UserRequest) (*pb.UserRes
 	return &pb.UserResponse{User: &user}, nil
 }
 
-func (s *server) GetAllUser(ctx context.Context, in *emptypb.Empty) (*pb.UsersInfo, error) {
+func (s *server) GetAllUsers(ctx context.Context, in *emptypb.Empty) (*pb.UsersInfo, error) {
 	users := []*pb.User{}
 
 	rows, err := s.db.Query("select id, email, nickname from users")

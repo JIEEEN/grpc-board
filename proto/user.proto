@@ -6,7 +6,7 @@ option go_package = "github.com/JIEEEN/grpc-board";
 
 service UserService {
     rpc GetUserId (UserRequest) returns (UserResponse);
-    rpc GetAllUser (google.protobuf.Empty) returns (UsersInfo);
+    rpc GetAllUsers (google.protobuf.Empty) returns (UsersInfo);
 }
 
 message User {
