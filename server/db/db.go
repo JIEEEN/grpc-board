@@ -81,6 +81,19 @@ func createTable(db *sql.DB) {
 	}
 
 	_, err = db.Exec(`
+		create table if not exists board_groups
+		(
+			id int not null auto_increment primary key,
+			name varchar(50) not null,
+			user_id int,
+			foreign key (user_id) references users(id)
+		)
+	`)
+	if err != nil {
+		log.Fatalf("Cannot create table groups: %v", err)
+	}
+
+	_, err = db.Exec(`
 		create table if not exists boards
 		(
 			id int not null auto_increment primary key,
@@ -92,24 +105,11 @@ func createTable(db *sql.DB) {
 			deleted_at timestamp,
 			group_id int,
 			foreign key (user_id) references users(id),
-			foreign key (group_id) references groups(id)
+			foreign key (group_id) references board_groups(id)
 		)
 	`)
 	if err != nil {
 		log.Fatalf("Cannot create table boards: %v", err)
-	}
-
-	_, err = db.Exec(`
-		create table if not exists groups
-		(
-			id int not null auto_increment primary key,
-			name varchar(255) not null,
-			user_id int,
-			foreign key (user_id) references users(id)
-		)
-	`)
-	if err != nil {
-		log.Fatalf("Cannot create table groups: %v", err)
 	}
 
 	_, err = db.Exec(`
@@ -118,7 +118,7 @@ func createTable(db *sql.DB) {
 			id int not null auto_increment primary key,
 			group_id int,
 			user_id int,
-			foreign key (group_id) references groups(id),
+			foreign key (group_id) references board_groups(id),
 			foreign key (user_id) references users(id)
 		)
 	`)
