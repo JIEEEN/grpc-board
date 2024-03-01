@@ -14,9 +14,9 @@ service BoardService {
 
 message Board {
     string id = 1;
-    string nickname = 2;
-    string title = 3;
-    string contents = 4;
+    string title = 2;
+    string contents = 3;
+    string groupId = 4;
 }
 
 message BoardListResponse {
