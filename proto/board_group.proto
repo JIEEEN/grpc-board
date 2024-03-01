@@ -1,0 +1,52 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+
+package board_group;
+option go_package = "github.com/JIEEEN/grpc-board";
+
+service BoardGroupService {
+    rpc GetAllBoards(google.protobuf.Empty) returns (BoardGroupsInfo);
+    rpc GetBoardId(GetBoardGroupRequest) returns (GetBoardGroupResponse);
+    rpc CreateBoardGroup(CreateBoardGroupRequest) returns (CreateBoardGroupResponse);
+    rpc UpdateBoardGroup(UpdateBoardGroupRequest) returns (UpdateBoardGroupResponse);
+    rpc DeleteBoardGroup(DeleteBoardGroupRequest) returns (DeleteBoardGroupResponse);
+}
+
+message BoardGroup {
+    string id = 1;
+    string name = 2;
+}
+
+message GetBoardGroupRequest {
+    string id = 1;
+}
+message GetBoardGroupResponse {
+    BoardGroup boardGroup = 1;
+}
+
+message CreateBoardGroupRequest {
+    BoardGroup boardGroup = 1;
+}
+message CreateBoardGroupResponse {
+    bool result = 1;
+}
+
+message UpdateBoardGroupRequest {
+    BoardGroup boardGroup = 1;
+}
+message UpdateBoardGroupResponse {
+    bool result = 1;
+}
+
+message DeleteBoardGroupRequest {
+    string id = 1;
+}
+message DeleteBoardGroupResponse {
+    bool result = 1;
+}
+
+message BoardGroupsInfo {
+    repeated BoardGroup boardGroups = 1;
+}
+
+

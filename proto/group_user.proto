@@ -1,0 +1,51 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+
+package group_user;
+option go_package = "github.com/JIEEEN/grpc-board";
+
+service GroupUserService {
+    rpc GetAllGroupUsers(google.protobuf.Empty) returns (GroupUsersInfo);
+    rpc GetGroupUserId(GetGroupUserRequest) returns (GetGroupUserResponse);
+    rpc CreateGroupUser(CreateGroupUserRequest) returns (CreateGroupUserResponse);
+    rpc UpdateGroupUser(UpdateGroupUserRequest) returns (UpdateGroupUserResponse);
+    rpc DeleteGroupUser(DeleteGroupUserRequest) returns (DeleteGroupUserResponse);
+}
+
+message GroupUser {
+    string id = 1;
+    string groupId = 2;
+    string userId = 3;
+}
+
+message GetGroupUserRequest {
+    string id = 1;
+}
+message GetGroupUserResponse {
+    GroupUser groupUser = 1;
+}
+
+message CreateGroupUserRequest {
+    GroupUser groupUser = 1;
+}
+message CreateGroupUserResponse {
+    bool result = 1;
+}
+
+message UpdateGroupUserRequest {
+    GroupUser groupUser = 1;
+}
+message UpdateGroupUserResponse {
+    bool result = 1;
+}
+
+message DeleteGroupUserRequest {
+    string id = 1;
+}
+message DeleteGroupUserResponse {
+    bool result = 1;
+}
+
+message GroupUsersInfo {
+    repeated GroupUser groupUsers = 1;
+}
