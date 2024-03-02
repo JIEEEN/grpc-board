@@ -14,8 +14,12 @@ service GroupUserService {
 
 message GroupUser {
     string id = 1;
-    string groupId = 2;
-    string userId = 3;
+    string group_id = 2;
+    string user_id = 3;
+}
+message GroupUserRequest{
+    string group_id = 1;
+    string user_id = 2;
 }
 
 message GetGroupUserRequest {
@@ -26,14 +30,14 @@ message GetGroupUserResponse {
 }
 
 message CreateGroupUserRequest {
-    GroupUser groupUser = 1;
+    GroupUserRequest group_user_request = 1;
 }
 message CreateGroupUserResponse {
     bool result = 1;
 }
 
 message UpdateGroupUserRequest {
-    GroupUser groupUser = 1;
+    GroupUserRequest group_user_request = 1;
 }
 message UpdateGroupUserResponse {
     bool result = 1;
