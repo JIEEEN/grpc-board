@@ -4,8 +4,10 @@ package reply;
 option go_package = "github.com/JIEEEN/grpc-board";
 
 service ReplyService {
+    rpc GetReplyUser (GetReplyUserRequest) returns (GetReplyUserResponse);
+    rpc GetReplyNickname (GetReplyNicknameRequest) returns (GetReplyNicknameResponse);
     rpc CreateReply (CreateReplyRequest) returns (CreateReplyResponse);
-    rpc GetAllReplyBoard (AllReplyRequest) returns (AllReplyResponse);
+    rpc GetAllReplyBoard (AllReplyBoardRequest) returns (AllReplyBoardResponse);
     rpc UpdateReply (UpdateReplyRequest) returns (UpdateReplyResponse);
     rpc DeleteReply (DeleteReplyRequest) returns (DeleteReplyResponse);
 }
@@ -17,19 +19,39 @@ message Reply {
     string board_id = 4;
     string contents = 5;
 }
+message ReplyRequest {
+    string user_id = 1;
+    string nickname = 2;
+    string board_id = 3;
+    string contents = 4;
+}
+
+message GetReplyUserRequest {
+    string user_id = 1;
+}
+message GetReplyUserResponse {
+    repeated Reply replies = 1;
+}
+
+message GetReplyNicknameRequest {
+    string nickname = 1;
+}
+message GetReplyNicknameResponse {
+    repeated Reply replies = 1;
+}
 
 message CreateReplyRequest {
-    Reply reply = 1;
+    ReplyRequest reply_request = 1;
 }
 message CreateReplyResponse {
     bool result = 1;
 }
 
-message AllReplyRequest {
+message AllReplyBoardRequest {
     string board_id = 1;
 }
-message AllReplyResponse {
-    repeated Reply replylist = 1;
+message AllReplyBoardResponse {
+    repeated Reply replies = 1;
 }
 
 message UpdateReplyRequest {

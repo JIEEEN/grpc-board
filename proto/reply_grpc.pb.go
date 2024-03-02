@@ -22,8 +22,10 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ReplyServiceClient interface {
+	GetReplyUser(ctx context.Context, in *GetReplyUserRequest, opts ...grpc.CallOption) (*GetReplyUserResponse, error)
+	GetReplyNickname(ctx context.Context, in *GetReplyNicknameRequest, opts ...grpc.CallOption) (*GetReplyNicknameResponse, error)
 	CreateReply(ctx context.Context, in *CreateReplyRequest, opts ...grpc.CallOption) (*CreateReplyResponse, error)
-	GetAllReplyBoard(ctx context.Context, in *AllReplyRequest, opts ...grpc.CallOption) (*AllReplyResponse, error)
+	GetAllReplyBoard(ctx context.Context, in *AllReplyBoardRequest, opts ...grpc.CallOption) (*AllReplyBoardResponse, error)
 	UpdateReply(ctx context.Context, in *UpdateReplyRequest, opts ...grpc.CallOption) (*UpdateReplyResponse, error)
 	DeleteReply(ctx context.Context, in *DeleteReplyRequest, opts ...grpc.CallOption) (*DeleteReplyResponse, error)
 }
@@ -36,6 +38,24 @@ func NewReplyServiceClient(cc grpc.ClientConnInterface) ReplyServiceClient {
 	return &replyServiceClient{cc}
 }
 
+func (c *replyServiceClient) GetReplyUser(ctx context.Context, in *GetReplyUserRequest, opts ...grpc.CallOption) (*GetReplyUserResponse, error) {
+	out := new(GetReplyUserResponse)
+	err := c.cc.Invoke(ctx, "/reply.ReplyService/GetReplyUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *replyServiceClient) GetReplyNickname(ctx context.Context, in *GetReplyNicknameRequest, opts ...grpc.CallOption) (*GetReplyNicknameResponse, error) {
+	out := new(GetReplyNicknameResponse)
+	err := c.cc.Invoke(ctx, "/reply.ReplyService/GetReplyNickname", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *replyServiceClient) CreateReply(ctx context.Context, in *CreateReplyRequest, opts ...grpc.CallOption) (*CreateReplyResponse, error) {
 	out := new(CreateReplyResponse)
 	err := c.cc.Invoke(ctx, "/reply.ReplyService/CreateReply", in, out, opts...)
@@ -45,8 +65,8 @@ func (c *replyServiceClient) CreateReply(ctx context.Context, in *CreateReplyReq
 	return out, nil
 }
 
-func (c *replyServiceClient) GetAllReplyBoard(ctx context.Context, in *AllReplyRequest, opts ...grpc.CallOption) (*AllReplyResponse, error) {
-	out := new(AllReplyResponse)
+func (c *replyServiceClient) GetAllReplyBoard(ctx context.Context, in *AllReplyBoardRequest, opts ...grpc.CallOption) (*AllReplyBoardResponse, error) {
+	out := new(AllReplyBoardResponse)
 	err := c.cc.Invoke(ctx, "/reply.ReplyService/GetAllReplyBoard", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -76,8 +96,10 @@ func (c *replyServiceClient) DeleteReply(ctx context.Context, in *DeleteReplyReq
 // All implementations must embed UnimplementedReplyServiceServer
 // for forward compatibility
 type ReplyServiceServer interface {
+	GetReplyUser(context.Context, *GetReplyUserRequest) (*GetReplyUserResponse, error)
+	GetReplyNickname(context.Context, *GetReplyNicknameRequest) (*GetReplyNicknameResponse, error)
 	CreateReply(context.Context, *CreateReplyRequest) (*CreateReplyResponse, error)
-	GetAllReplyBoard(context.Context, *AllReplyRequest) (*AllReplyResponse, error)
+	GetAllReplyBoard(context.Context, *AllReplyBoardRequest) (*AllReplyBoardResponse, error)
 	UpdateReply(context.Context, *UpdateReplyRequest) (*UpdateReplyResponse, error)
 	DeleteReply(context.Context, *DeleteReplyRequest) (*DeleteReplyResponse, error)
 	mustEmbedUnimplementedReplyServiceServer()
@@ -87,10 +109,16 @@ type ReplyServiceServer interface {
 type UnimplementedReplyServiceServer struct {
 }
 
+func (UnimplementedReplyServiceServer) GetReplyUser(context.Context, *GetReplyUserRequest) (*GetReplyUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetReplyUser not implemented")
+}
+func (UnimplementedReplyServiceServer) GetReplyNickname(context.Context, *GetReplyNicknameRequest) (*GetReplyNicknameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetReplyNickname not implemented")
+}
 func (UnimplementedReplyServiceServer) CreateReply(context.Context, *CreateReplyRequest) (*CreateReplyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateReply not implemented")
 }
-func (UnimplementedReplyServiceServer) GetAllReplyBoard(context.Context, *AllReplyRequest) (*AllReplyResponse, error) {
+func (UnimplementedReplyServiceServer) GetAllReplyBoard(context.Context, *AllReplyBoardRequest) (*AllReplyBoardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllReplyBoard not implemented")
 }
 func (UnimplementedReplyServiceServer) UpdateReply(context.Context, *UpdateReplyRequest) (*UpdateReplyResponse, error) {
@@ -112,6 +140,42 @@ func RegisterReplyServiceServer(s grpc.ServiceRegistrar, srv ReplyServiceServer)
 	s.RegisterService(&ReplyService_ServiceDesc, srv)
 }
 
+func _ReplyService_GetReplyUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetReplyUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReplyServiceServer).GetReplyUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/reply.ReplyService/GetReplyUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReplyServiceServer).GetReplyUser(ctx, req.(*GetReplyUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ReplyService_GetReplyNickname_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetReplyNicknameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReplyServiceServer).GetReplyNickname(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/reply.ReplyService/GetReplyNickname",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReplyServiceServer).GetReplyNickname(ctx, req.(*GetReplyNicknameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ReplyService_CreateReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateReplyRequest)
 	if err := dec(in); err != nil {
@@ -131,7 +195,7 @@ func _ReplyService_CreateReply_Handler(srv interface{}, ctx context.Context, dec
 }
 
 func _ReplyService_GetAllReplyBoard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AllReplyRequest)
+	in := new(AllReplyBoardRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -143,7 +207,7 @@ func _ReplyService_GetAllReplyBoard_Handler(srv interface{}, ctx context.Context
 		FullMethod: "/reply.ReplyService/GetAllReplyBoard",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ReplyServiceServer).GetAllReplyBoard(ctx, req.(*AllReplyRequest))
+		return srv.(ReplyServiceServer).GetAllReplyBoard(ctx, req.(*AllReplyBoardRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -191,6 +255,14 @@ var ReplyService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "reply.ReplyService",
 	HandlerType: (*ReplyServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetReplyUser",
+			Handler:    _ReplyService_GetReplyUser_Handler,
+		},
+		{
+			MethodName: "GetReplyNickname",
+			Handler:    _ReplyService_GetReplyNickname_Handler,
+		},
 		{
 			MethodName: "CreateReply",
 			Handler:    _ReplyService_CreateReply_Handler,
