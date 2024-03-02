@@ -84,9 +84,7 @@ func createTable(db *sql.DB) {
 		create table if not exists board_groups
 		(
 			id int not null auto_increment primary key,
-			name varchar(50) not null,
-			user_id int,
-			foreign key (user_id) references users(id)
+			name varchar(50) not null
 		)
 	`)
 	if err != nil {
@@ -98,12 +96,12 @@ func createTable(db *sql.DB) {
 		(
 			id int not null auto_increment primary key,
 			user_id int,
+			group_id int,
 			title varchar(255) not null,
 			contents text,
 			create_at timestamp default current_timestamp,
 			updated_at timestamp default current_timestamp on update current_timestamp,
 			deleted_at timestamp,
-			group_id int,
 			foreign key (user_id) references users(id),
 			foreign key (group_id) references board_groups(id)
 		)
