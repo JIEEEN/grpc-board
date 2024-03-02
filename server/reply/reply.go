@@ -28,6 +28,7 @@ func (s *server) GetReplyUser(ctx context.Context, in *pb.GetReplyUserRequest) (
 		log.Printf("Failed to execute query: %v", err)
 		return &pb.GetReplyUserResponse{}, err
 	}
+	defer rows.Close()
 
 	var r_id, r_userId, r_nickname, r_boardId, r_contents string
 	for rows.Next() {
@@ -62,6 +63,7 @@ func (s *server) GetReplyNickname(ctx context.Context, in *pb.GetReplyNicknameRe
 		log.Printf("Failed to execute query: %v", err)
 		return &pb.GetReplyNicknameResponse{}, err
 	}
+	defer rows.Close()
 
 	var r_id, r_userId, r_nickname, r_boardId, r_contents string
 	for rows.Next() {
@@ -113,6 +115,7 @@ func (s *server) GetAllReplyBoard(ctx context.Context, in *pb.AllReplyBoardReque
 		log.Printf("Failed to execute query: %v", err)
 		return &pb.AllReplyBoardResponse{}, err
 	}
+	defer rows.Close()
 
 	var r_id, r_userId, r_nickname, r_boardId, r_contents string
 	for rows.Next() {
