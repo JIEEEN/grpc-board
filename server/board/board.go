@@ -23,39 +23,46 @@ func NewServer(db *sql.DB) *server {
 func (s *server) BoardList(ctx context.Context, in *emptypb.Empty) (*pb.BoardListResponse, error) {
 	boards := []*pb.Board{}
 
-	rows, err := s.db.Query("select * from boards")
+	rows, err := s.db.Query("select id, user_id, title, contents, group_id from boards")
 	if err != nil {
 		log.Printf("Failed to execute query: %v", err)
 		return &pb.BoardListResponse{}, err
 	}
 	defer rows.Close()
 
-	var r *pb.Board
+	var r_id, r_userId, r_title, r_contents, r_groupId string
 	for rows.Next() {
-		err = rows.Scan(r)
+		err = rows.Scan(&r_id, &r_userId, &r_title, &r_contents, &r_groupId)
 		if err != nil {
 			log.Printf("Failed to get row data: %v", err)
 			return &pb.BoardListResponse{}, err
 		}
 
-		boards = append(boards, r)
+		board := &pb.Board{
+			Id:       r_id,
+			Title:    r_title,
+			Contents: r_contents,
+			GroupId:  r_groupId,
+		}
+
+		boards = append(boards, board)
 	}
 
 	return &pb.BoardListResponse{
-		Boardlist: boards,
+		Boards: boards,
 	}, nil
 }
 
 func (s *server) CreateBoard(ctx context.Context, in *pb.CreateBoardRequest) (*pb.CreateBoardResponse, error) {
 	board := &pb.Board{
-		Id:       in.GetBoard().GetId(),
-		Title:    in.GetBoard().GetTitle(),
-		Contents: in.GetBoard().GetContents(),
+		UserId:   in.GetBoardRequest().GetUserId(),
+		Title:    in.GetBoardRequest().GetTitle(),
+		Contents: in.GetBoardRequest().GetContents(),
+		GroupId:  in.GetBoardRequest().GetGroupId(),
 	}
 
-	_, err := s.db.Exec("insert into boards (id, title, contents) values (?, ?, ?, ?)",
-		board.Id, board.Title, board.Contents)
-
+	_, err := s.db.Exec("insert into boards (user_id, title, contents, group_id) values (?, ?, ?, ?)",
+		board.UserId, board.Title, board.Contents, board.GroupId)
 	if err != nil {
 		log.Printf("Failed to execute query: %v", err)
 		return &pb.CreateBoardResponse{
@@ -71,14 +78,24 @@ func (s *server) CreateBoard(ctx context.Context, in *pb.CreateBoardRequest) (*p
 func (s *server) ReadBoard(ctx context.Context, in *pb.ReadBoardRequest) (*pb.ReadBoardResponse, error) {
 	id := in.GetId()
 
-	var r *pb.Board
-	err := s.db.QueryRow("select *from boards where id = ?", id).Scan(r)
+	var r_id, r_userId, r_title, r_contents, r_groupId string
+	err := s.db.QueryRow("select id, user_id, title, contents, group_id from boards where id = ?", id).Scan(
+		&r_id, &r_userId, &r_title, &r_contents, &r_groupId,
+	)
 	if err != nil {
 		log.Printf("Failed to execute query: %v", err)
 		return &pb.ReadBoardResponse{}, nil
 	}
 
-	return &pb.ReadBoardResponse{Board: r}, nil
+	board := &pb.Board{
+		Id:       r_id,
+		UserId:   r_userId,
+		Title:    r_title,
+		Contents: r_contents,
+		GroupId:  r_groupId,
+	}
+
+	return &pb.ReadBoardResponse{Board: board}, nil
 }
 
 func (s *server) UpdateBoard(ctx context.Context, in *pb.UpdateBoardRequest) (*pb.UpdateBoardResponse, error) {

@@ -27,9 +27,10 @@ type Board struct {
 	unknownFields protoimpl.UnknownFields
 
 	Id       string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Title    string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
-	Contents string `protobuf:"bytes,3,opt,name=contents,proto3" json:"contents,omitempty"`
-	GroupId  string `protobuf:"bytes,4,opt,name=groupId,proto3" json:"groupId,omitempty"`
+	UserId   string `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Title    string `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
+	Contents string `protobuf:"bytes,4,opt,name=contents,proto3" json:"contents,omitempty"`
+	GroupId  string `protobuf:"bytes,5,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
 }
 
 func (x *Board) Reset() {
@@ -71,6 +72,13 @@ func (x *Board) GetId() string {
 	return ""
 }
 
+func (x *Board) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
 func (x *Board) GetTitle() string {
 	if x != nil {
 		return x.Title
@@ -92,18 +100,89 @@ func (x *Board) GetGroupId() string {
 	return ""
 }
 
+type BoardRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UserId   string `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Title    string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Contents string `protobuf:"bytes,3,opt,name=contents,proto3" json:"contents,omitempty"`
+	GroupId  string `protobuf:"bytes,4,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
+}
+
+func (x *BoardRequest) Reset() {
+	*x = BoardRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_board_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BoardRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BoardRequest) ProtoMessage() {}
+
+func (x *BoardRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_board_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BoardRequest.ProtoReflect.Descriptor instead.
+func (*BoardRequest) Descriptor() ([]byte, []int) {
+	return file_board_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *BoardRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *BoardRequest) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *BoardRequest) GetContents() string {
+	if x != nil {
+		return x.Contents
+	}
+	return ""
+}
+
+func (x *BoardRequest) GetGroupId() string {
+	if x != nil {
+		return x.GroupId
+	}
+	return ""
+}
+
 type BoardListResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Boardlist []*Board `protobuf:"bytes,1,rep,name=boardlist,proto3" json:"boardlist,omitempty"`
+	Boards []*Board `protobuf:"bytes,1,rep,name=boards,proto3" json:"boards,omitempty"`
 }
 
 func (x *BoardListResponse) Reset() {
 	*x = BoardListResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_board_proto_msgTypes[1]
+		mi := &file_board_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -116,7 +195,7 @@ func (x *BoardListResponse) String() string {
 func (*BoardListResponse) ProtoMessage() {}
 
 func (x *BoardListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_board_proto_msgTypes[1]
+	mi := &file_board_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -129,12 +208,12 @@ func (x *BoardListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BoardListResponse.ProtoReflect.Descriptor instead.
 func (*BoardListResponse) Descriptor() ([]byte, []int) {
-	return file_board_proto_rawDescGZIP(), []int{1}
+	return file_board_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *BoardListResponse) GetBoardlist() []*Board {
+func (x *BoardListResponse) GetBoards() []*Board {
 	if x != nil {
-		return x.Boardlist
+		return x.Boards
 	}
 	return nil
 }
@@ -144,13 +223,13 @@ type CreateBoardRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Board *Board `protobuf:"bytes,1,opt,name=board,proto3" json:"board,omitempty"`
+	BoardRequest *BoardRequest `protobuf:"bytes,1,opt,name=board_request,json=boardRequest,proto3" json:"board_request,omitempty"`
 }
 
 func (x *CreateBoardRequest) Reset() {
 	*x = CreateBoardRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_board_proto_msgTypes[2]
+		mi := &file_board_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -163,7 +242,7 @@ func (x *CreateBoardRequest) String() string {
 func (*CreateBoardRequest) ProtoMessage() {}
 
 func (x *CreateBoardRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_board_proto_msgTypes[2]
+	mi := &file_board_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -176,12 +255,12 @@ func (x *CreateBoardRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateBoardRequest.ProtoReflect.Descriptor instead.
 func (*CreateBoardRequest) Descriptor() ([]byte, []int) {
-	return file_board_proto_rawDescGZIP(), []int{2}
+	return file_board_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *CreateBoardRequest) GetBoard() *Board {
+func (x *CreateBoardRequest) GetBoardRequest() *BoardRequest {
 	if x != nil {
-		return x.Board
+		return x.BoardRequest
 	}
 	return nil
 }
@@ -197,7 +276,7 @@ type CreateBoardResponse struct {
 func (x *CreateBoardResponse) Reset() {
 	*x = CreateBoardResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_board_proto_msgTypes[3]
+		mi := &file_board_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -210,7 +289,7 @@ func (x *CreateBoardResponse) String() string {
 func (*CreateBoardResponse) ProtoMessage() {}
 
 func (x *CreateBoardResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_board_proto_msgTypes[3]
+	mi := &file_board_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -223,7 +302,7 @@ func (x *CreateBoardResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateBoardResponse.ProtoReflect.Descriptor instead.
 func (*CreateBoardResponse) Descriptor() ([]byte, []int) {
-	return file_board_proto_rawDescGZIP(), []int{3}
+	return file_board_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CreateBoardResponse) GetResult() bool {
@@ -244,7 +323,7 @@ type ReadBoardRequest struct {
 func (x *ReadBoardRequest) Reset() {
 	*x = ReadBoardRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_board_proto_msgTypes[4]
+		mi := &file_board_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -257,7 +336,7 @@ func (x *ReadBoardRequest) String() string {
 func (*ReadBoardRequest) ProtoMessage() {}
 
 func (x *ReadBoardRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_board_proto_msgTypes[4]
+	mi := &file_board_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -270,7 +349,7 @@ func (x *ReadBoardRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReadBoardRequest.ProtoReflect.Descriptor instead.
 func (*ReadBoardRequest) Descriptor() ([]byte, []int) {
-	return file_board_proto_rawDescGZIP(), []int{4}
+	return file_board_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ReadBoardRequest) GetId() string {
@@ -291,7 +370,7 @@ type ReadBoardResponse struct {
 func (x *ReadBoardResponse) Reset() {
 	*x = ReadBoardResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_board_proto_msgTypes[5]
+		mi := &file_board_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -304,7 +383,7 @@ func (x *ReadBoardResponse) String() string {
 func (*ReadBoardResponse) ProtoMessage() {}
 
 func (x *ReadBoardResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_board_proto_msgTypes[5]
+	mi := &file_board_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -317,7 +396,7 @@ func (x *ReadBoardResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReadBoardResponse.ProtoReflect.Descriptor instead.
 func (*ReadBoardResponse) Descriptor() ([]byte, []int) {
-	return file_board_proto_rawDescGZIP(), []int{5}
+	return file_board_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ReadBoardResponse) GetBoard() *Board {
@@ -338,7 +417,7 @@ type UpdateBoardRequest struct {
 func (x *UpdateBoardRequest) Reset() {
 	*x = UpdateBoardRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_board_proto_msgTypes[6]
+		mi := &file_board_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -351,7 +430,7 @@ func (x *UpdateBoardRequest) String() string {
 func (*UpdateBoardRequest) ProtoMessage() {}
 
 func (x *UpdateBoardRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_board_proto_msgTypes[6]
+	mi := &file_board_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -364,7 +443,7 @@ func (x *UpdateBoardRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateBoardRequest.ProtoReflect.Descriptor instead.
 func (*UpdateBoardRequest) Descriptor() ([]byte, []int) {
-	return file_board_proto_rawDescGZIP(), []int{6}
+	return file_board_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *UpdateBoardRequest) GetBoard() *Board {
@@ -385,7 +464,7 @@ type UpdateBoardResponse struct {
 func (x *UpdateBoardResponse) Reset() {
 	*x = UpdateBoardResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_board_proto_msgTypes[7]
+		mi := &file_board_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -398,7 +477,7 @@ func (x *UpdateBoardResponse) String() string {
 func (*UpdateBoardResponse) ProtoMessage() {}
 
 func (x *UpdateBoardResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_board_proto_msgTypes[7]
+	mi := &file_board_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -411,7 +490,7 @@ func (x *UpdateBoardResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateBoardResponse.ProtoReflect.Descriptor instead.
 func (*UpdateBoardResponse) Descriptor() ([]byte, []int) {
-	return file_board_proto_rawDescGZIP(), []int{7}
+	return file_board_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *UpdateBoardResponse) GetResult() bool {
@@ -432,7 +511,7 @@ type DeleteBoardRequest struct {
 func (x *DeleteBoardRequest) Reset() {
 	*x = DeleteBoardRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_board_proto_msgTypes[8]
+		mi := &file_board_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -445,7 +524,7 @@ func (x *DeleteBoardRequest) String() string {
 func (*DeleteBoardRequest) ProtoMessage() {}
 
 func (x *DeleteBoardRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_board_proto_msgTypes[8]
+	mi := &file_board_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -458,7 +537,7 @@ func (x *DeleteBoardRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteBoardRequest.ProtoReflect.Descriptor instead.
 func (*DeleteBoardRequest) Descriptor() ([]byte, []int) {
-	return file_board_proto_rawDescGZIP(), []int{8}
+	return file_board_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DeleteBoardRequest) GetId() string {
@@ -479,7 +558,7 @@ type DeleteBoardResponse struct {
 func (x *DeleteBoardResponse) Reset() {
 	*x = DeleteBoardResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_board_proto_msgTypes[9]
+		mi := &file_board_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -492,7 +571,7 @@ func (x *DeleteBoardResponse) String() string {
 func (*DeleteBoardResponse) ProtoMessage() {}
 
 func (x *DeleteBoardResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_board_proto_msgTypes[9]
+	mi := &file_board_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -505,7 +584,7 @@ func (x *DeleteBoardResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteBoardResponse.ProtoReflect.Descriptor instead.
 func (*DeleteBoardResponse) Descriptor() ([]byte, []int) {
-	return file_board_proto_rawDescGZIP(), []int{9}
+	return file_board_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *DeleteBoardResponse) GetResult() bool {
@@ -521,21 +600,31 @@ var file_board_proto_rawDesc = []byte{
 	0x0a, 0x0b, 0x62, 0x6f, 0x61, 0x72, 0x64, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x05, 0x62,
 	0x6f, 0x61, 0x72, 0x64, 0x1a, 0x1b, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f,
 	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x65, 0x6d, 0x70, 0x74, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x22, 0x63, 0x0a, 0x05, 0x42, 0x6f, 0x61, 0x72, 0x64, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x69,
-	0x74, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65,
-	0x12, 0x1a, 0x0a, 0x08, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x08, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x18, 0x0a, 0x07,
-	0x67, 0x72, 0x6f, 0x75, 0x70, 0x49, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x67,
-	0x72, 0x6f, 0x75, 0x70, 0x49, 0x64, 0x22, 0x3f, 0x0a, 0x11, 0x42, 0x6f, 0x61, 0x72, 0x64, 0x4c,
-	0x69, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2a, 0x0a, 0x09, 0x62,
-	0x6f, 0x61, 0x72, 0x64, 0x6c, 0x69, 0x73, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0c,
-	0x2e, 0x62, 0x6f, 0x61, 0x72, 0x64, 0x2e, 0x42, 0x6f, 0x61, 0x72, 0x64, 0x52, 0x09, 0x62, 0x6f,
-	0x61, 0x72, 0x64, 0x6c, 0x69, 0x73, 0x74, 0x22, 0x38, 0x0a, 0x12, 0x43, 0x72, 0x65, 0x61, 0x74,
-	0x65, 0x42, 0x6f, 0x61, 0x72, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x22, 0x0a,
-	0x05, 0x62, 0x6f, 0x61, 0x72, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x62,
-	0x6f, 0x61, 0x72, 0x64, 0x2e, 0x42, 0x6f, 0x61, 0x72, 0x64, 0x52, 0x05, 0x62, 0x6f, 0x61, 0x72,
-	0x64, 0x22, 0x2d, 0x0a, 0x13, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x42, 0x6f, 0x61, 0x72, 0x64,
+	0x6f, 0x22, 0x7d, 0x0a, 0x05, 0x42, 0x6f, 0x61, 0x72, 0x64, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73,
+	0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75, 0x73, 0x65,
+	0x72, 0x49, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x63, 0x6f, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x63, 0x6f, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x19, 0x0a, 0x08, 0x67, 0x72, 0x6f, 0x75, 0x70, 0x5f, 0x69,
+	0x64, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x67, 0x72, 0x6f, 0x75, 0x70, 0x49, 0x64,
+	0x22, 0x74, 0x0a, 0x0c, 0x42, 0x6f, 0x61, 0x72, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x69, 0x74,
+	0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x12,
+	0x1a, 0x0a, 0x08, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x08, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x19, 0x0a, 0x08, 0x67,
+	0x72, 0x6f, 0x75, 0x70, 0x5f, 0x69, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x67,
+	0x72, 0x6f, 0x75, 0x70, 0x49, 0x64, 0x22, 0x39, 0x0a, 0x11, 0x42, 0x6f, 0x61, 0x72, 0x64, 0x4c,
+	0x69, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x24, 0x0a, 0x06, 0x62,
+	0x6f, 0x61, 0x72, 0x64, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x62, 0x6f,
+	0x61, 0x72, 0x64, 0x2e, 0x42, 0x6f, 0x61, 0x72, 0x64, 0x52, 0x06, 0x62, 0x6f, 0x61, 0x72, 0x64,
+	0x73, 0x22, 0x4e, 0x0a, 0x12, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x42, 0x6f, 0x61, 0x72, 0x64,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x38, 0x0a, 0x0d, 0x62, 0x6f, 0x61, 0x72, 0x64,
+	0x5f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13,
+	0x2e, 0x62, 0x6f, 0x61, 0x72, 0x64, 0x2e, 0x42, 0x6f, 0x61, 0x72, 0x64, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x52, 0x0c, 0x62, 0x6f, 0x61, 0x72, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x22, 0x2d, 0x0a, 0x13, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x42, 0x6f, 0x61, 0x72, 0x64,
 	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75,
 	0x6c, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74,
 	0x22, 0x22, 0x0a, 0x10, 0x52, 0x65, 0x61, 0x64, 0x42, 0x6f, 0x61, 0x72, 0x64, 0x52, 0x65, 0x71,
@@ -595,35 +684,36 @@ func file_board_proto_rawDescGZIP() []byte {
 	return file_board_proto_rawDescData
 }
 
-var file_board_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_board_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_board_proto_goTypes = []interface{}{
 	(*Board)(nil),               // 0: board.Board
-	(*BoardListResponse)(nil),   // 1: board.BoardListResponse
-	(*CreateBoardRequest)(nil),  // 2: board.CreateBoardRequest
-	(*CreateBoardResponse)(nil), // 3: board.CreateBoardResponse
-	(*ReadBoardRequest)(nil),    // 4: board.ReadBoardRequest
-	(*ReadBoardResponse)(nil),   // 5: board.ReadBoardResponse
-	(*UpdateBoardRequest)(nil),  // 6: board.UpdateBoardRequest
-	(*UpdateBoardResponse)(nil), // 7: board.UpdateBoardResponse
-	(*DeleteBoardRequest)(nil),  // 8: board.DeleteBoardRequest
-	(*DeleteBoardResponse)(nil), // 9: board.DeleteBoardResponse
-	(*emptypb.Empty)(nil),       // 10: google.protobuf.Empty
+	(*BoardRequest)(nil),        // 1: board.BoardRequest
+	(*BoardListResponse)(nil),   // 2: board.BoardListResponse
+	(*CreateBoardRequest)(nil),  // 3: board.CreateBoardRequest
+	(*CreateBoardResponse)(nil), // 4: board.CreateBoardResponse
+	(*ReadBoardRequest)(nil),    // 5: board.ReadBoardRequest
+	(*ReadBoardResponse)(nil),   // 6: board.ReadBoardResponse
+	(*UpdateBoardRequest)(nil),  // 7: board.UpdateBoardRequest
+	(*UpdateBoardResponse)(nil), // 8: board.UpdateBoardResponse
+	(*DeleteBoardRequest)(nil),  // 9: board.DeleteBoardRequest
+	(*DeleteBoardResponse)(nil), // 10: board.DeleteBoardResponse
+	(*emptypb.Empty)(nil),       // 11: google.protobuf.Empty
 }
 var file_board_proto_depIdxs = []int32{
-	0,  // 0: board.BoardListResponse.boardlist:type_name -> board.Board
-	0,  // 1: board.CreateBoardRequest.board:type_name -> board.Board
+	0,  // 0: board.BoardListResponse.boards:type_name -> board.Board
+	1,  // 1: board.CreateBoardRequest.board_request:type_name -> board.BoardRequest
 	0,  // 2: board.ReadBoardResponse.board:type_name -> board.Board
 	0,  // 3: board.UpdateBoardRequest.board:type_name -> board.Board
-	10, // 4: board.BoardService.BoardList:input_type -> google.protobuf.Empty
-	2,  // 5: board.BoardService.CreateBoard:input_type -> board.CreateBoardRequest
-	4,  // 6: board.BoardService.ReadBoard:input_type -> board.ReadBoardRequest
-	6,  // 7: board.BoardService.UpdateBoard:input_type -> board.UpdateBoardRequest
-	8,  // 8: board.BoardService.DeleteBoard:input_type -> board.DeleteBoardRequest
-	1,  // 9: board.BoardService.BoardList:output_type -> board.BoardListResponse
-	3,  // 10: board.BoardService.CreateBoard:output_type -> board.CreateBoardResponse
-	5,  // 11: board.BoardService.ReadBoard:output_type -> board.ReadBoardResponse
-	7,  // 12: board.BoardService.UpdateBoard:output_type -> board.UpdateBoardResponse
-	9,  // 13: board.BoardService.DeleteBoard:output_type -> board.DeleteBoardResponse
+	11, // 4: board.BoardService.BoardList:input_type -> google.protobuf.Empty
+	3,  // 5: board.BoardService.CreateBoard:input_type -> board.CreateBoardRequest
+	5,  // 6: board.BoardService.ReadBoard:input_type -> board.ReadBoardRequest
+	7,  // 7: board.BoardService.UpdateBoard:input_type -> board.UpdateBoardRequest
+	9,  // 8: board.BoardService.DeleteBoard:input_type -> board.DeleteBoardRequest
+	2,  // 9: board.BoardService.BoardList:output_type -> board.BoardListResponse
+	4,  // 10: board.BoardService.CreateBoard:output_type -> board.CreateBoardResponse
+	6,  // 11: board.BoardService.ReadBoard:output_type -> board.ReadBoardResponse
+	8,  // 12: board.BoardService.UpdateBoard:output_type -> board.UpdateBoardResponse
+	10, // 13: board.BoardService.DeleteBoard:output_type -> board.DeleteBoardResponse
 	9,  // [9:14] is the sub-list for method output_type
 	4,  // [4:9] is the sub-list for method input_type
 	4,  // [4:4] is the sub-list for extension type_name
@@ -650,7 +740,7 @@ func file_board_proto_init() {
 			}
 		}
 		file_board_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*BoardListResponse); i {
+			switch v := v.(*BoardRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -662,7 +752,7 @@ func file_board_proto_init() {
 			}
 		}
 		file_board_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateBoardRequest); i {
+			switch v := v.(*BoardListResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -674,7 +764,7 @@ func file_board_proto_init() {
 			}
 		}
 		file_board_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateBoardResponse); i {
+			switch v := v.(*CreateBoardRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -686,7 +776,7 @@ func file_board_proto_init() {
 			}
 		}
 		file_board_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ReadBoardRequest); i {
+			switch v := v.(*CreateBoardResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -698,7 +788,7 @@ func file_board_proto_init() {
 			}
 		}
 		file_board_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ReadBoardResponse); i {
+			switch v := v.(*ReadBoardRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -710,7 +800,7 @@ func file_board_proto_init() {
 			}
 		}
 		file_board_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateBoardRequest); i {
+			switch v := v.(*ReadBoardResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -722,7 +812,7 @@ func file_board_proto_init() {
 			}
 		}
 		file_board_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateBoardResponse); i {
+			switch v := v.(*UpdateBoardRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -734,7 +824,7 @@ func file_board_proto_init() {
 			}
 		}
 		file_board_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteBoardRequest); i {
+			switch v := v.(*UpdateBoardResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -746,6 +836,18 @@ func file_board_proto_init() {
 			}
 		}
 		file_board_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteBoardRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_board_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DeleteBoardResponse); i {
 			case 0:
 				return &v.state
@@ -764,7 +866,7 @@ func file_board_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_board_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
