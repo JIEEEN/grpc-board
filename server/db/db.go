@@ -24,7 +24,6 @@ func InitDB() (*sql.DB, error) {
 		log.Fatalf("Cannot connect to DB: %v", err)
 	}
 
-	db.SetConnMaxLifetime(time.Minute * 5)
 	db.SetMaxOpenConns(10)
 	db.SetMaxIdleConns(10)
 	log.Printf("Connect success to db: %v", dbType)
