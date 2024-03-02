@@ -5,7 +5,8 @@ package user;
 option go_package = "github.com/JIEEEN/grpc-board";
 
 service UserService {
-    rpc GetUserId (UserRequest) returns (UserResponse);
+    rpc GetUserId (GetUserIdRequest) returns (GetUserIdResponse);
+    rpc GetUserNickname (GetUserNicknameRequest) returns (GetUserNicknameResponse);
     rpc GetAllUsers (google.protobuf.Empty) returns (UsersInfo);
 }
 
@@ -15,10 +16,17 @@ message User {
     string nickname = 3;
 }
 
-message UserRequest {
+message GetUserIdRequest {
     string id = 1;
 }
-message UserResponse {
+message GetUserIdResponse {
+    User user = 1;
+}
+
+message GetUserNicknameRequest{
+    string nickname = 1;
+}
+message GetUserNicknameResponse {
     User user = 1;
 }
 

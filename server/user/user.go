@@ -20,38 +20,67 @@ func NewServer(db *sql.DB) *server {
 	}
 }
 
-func (s *server) GetUserId(ctx context.Context, in *pb.UserRequest) (*pb.UserResponse, error) {
+func (s *server) GetUserId(ctx context.Context, in *pb.GetUserIdRequest) (*pb.GetUserIdResponse, error) {
 	id := in.GetId()
 
-	var r *pb.User
-	err := s.db.QueryRow("select * from users where id = ?", id).Scan(r)
+	var r_id, r_email, r_nickname string
+	err := s.db.QueryRow("select id, email, nickname from users where id = ?", id).Scan(&r_id, &r_email, &r_nickname)
 	if err != nil {
 		log.Printf("Failed to execute query: %v", err)
-		return &pb.UserResponse{}, err
+		return &pb.GetUserIdResponse{}, err
 	}
 
-	return &pb.UserResponse{User: r}, nil
+	user := &pb.User{
+		Id:       r_id,
+		Email:    r_email,
+		Nickname: r_nickname,
+	}
+	return &pb.GetUserIdResponse{User: user}, nil
+}
+
+func (s *server) GetUserNickname(ctx context.Context, in *pb.GetUserNicknameRequest) (*pb.GetUserNicknameResponse, error) {
+	nickname := in.GetNickname()
+
+	var r_id, r_email, r_nickname string
+	err := s.db.QueryRow("select id, email, nickname from users where nickname = ?", nickname).Scan(&r_id, &r_email, &r_nickname)
+	if err != nil {
+		log.Printf("Failed to execute query: %v", err)
+		return &pb.GetUserNicknameResponse{}, err
+	}
+
+	user := &pb.User{
+		Id:       r_id,
+		Email:    r_email,
+		Nickname: r_nickname,
+	}
+	return &pb.GetUserNicknameResponse{User: user}, nil
 }
 
 func (s *server) GetAllUsers(ctx context.Context, in *emptypb.Empty) (*pb.UsersInfo, error) {
 	users := []*pb.User{}
 
-	rows, err := s.db.Query("select * from users")
+	rows, err := s.db.Query("select id, email, nickname from users")
 	if err != nil {
 		log.Printf("Failed to execute query: %v", err)
 		return &pb.UsersInfo{}, err
 	}
 	defer rows.Close()
 
-	var r *pb.User
+	var r_id, r_email, r_nickname string
 	for rows.Next() {
-		err = rows.Scan(r)
+		err = rows.Scan(&r_id, &r_email, &r_nickname)
 		if err != nil {
 			log.Printf("Failed to get row data: %v", err)
 			return &pb.UsersInfo{}, err
 		}
 
-		users = append(users, r)
+		user := &pb.User{
+			Id:       r_id,
+			Email:    r_email,
+			Nickname: r_nickname,
+		}
+
+		users = append(users, user)
 	}
 
 	return &pb.UsersInfo{Users: users}, nil
