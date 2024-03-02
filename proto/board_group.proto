@@ -5,7 +5,7 @@ package board_group;
 option go_package = "github.com/JIEEEN/grpc-board";
 
 service BoardGroupService {
-    rpc GetAllBoards(google.protobuf.Empty) returns (BoardGroupsInfo);
+    rpc GetAllBoardGroups(google.protobuf.Empty) returns (BoardGroupsInfo);
     rpc GetBoardId(GetBoardGroupRequest) returns (GetBoardGroupResponse);
     rpc CreateBoardGroup(CreateBoardGroupRequest) returns (CreateBoardGroupResponse);
     rpc UpdateBoardGroup(UpdateBoardGroupRequest) returns (UpdateBoardGroupResponse);
@@ -16,23 +16,26 @@ message BoardGroup {
     string id = 1;
     string name = 2;
 }
+message BoardGroupRequest {
+    string name = 1;
+}
 
 message GetBoardGroupRequest {
     string id = 1;
 }
 message GetBoardGroupResponse {
-    BoardGroup boardGroup = 1;
+    BoardGroup board_group = 1;
 }
 
 message CreateBoardGroupRequest {
-    BoardGroup boardGroup = 1;
+    BoardGroupRequest board_group_request = 1;
 }
 message CreateBoardGroupResponse {
     bool result = 1;
 }
 
 message UpdateBoardGroupRequest {
-    BoardGroup boardGroup = 1;
+    BoardGroup board_group = 1;
 }
 message UpdateBoardGroupResponse {
     bool result = 1;
@@ -46,7 +49,7 @@ message DeleteBoardGroupResponse {
 }
 
 message BoardGroupsInfo {
-    repeated BoardGroup boardGroups = 1;
+    repeated BoardGroup board_groups = 1;
 }
 
 

@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BoardGroupServiceClient interface {
-	GetAllBoards(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*BoardGroupsInfo, error)
+	GetAllBoardGroups(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*BoardGroupsInfo, error)
 	GetBoardId(ctx context.Context, in *GetBoardGroupRequest, opts ...grpc.CallOption) (*GetBoardGroupResponse, error)
 	CreateBoardGroup(ctx context.Context, in *CreateBoardGroupRequest, opts ...grpc.CallOption) (*CreateBoardGroupResponse, error)
 	UpdateBoardGroup(ctx context.Context, in *UpdateBoardGroupRequest, opts ...grpc.CallOption) (*UpdateBoardGroupResponse, error)
@@ -38,9 +38,9 @@ func NewBoardGroupServiceClient(cc grpc.ClientConnInterface) BoardGroupServiceCl
 	return &boardGroupServiceClient{cc}
 }
 
-func (c *boardGroupServiceClient) GetAllBoards(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*BoardGroupsInfo, error) {
+func (c *boardGroupServiceClient) GetAllBoardGroups(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*BoardGroupsInfo, error) {
 	out := new(BoardGroupsInfo)
-	err := c.cc.Invoke(ctx, "/board_group.BoardGroupService/GetAllBoards", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/board_group.BoardGroupService/GetAllBoardGroups", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ func (c *boardGroupServiceClient) DeleteBoardGroup(ctx context.Context, in *Dele
 // All implementations must embed UnimplementedBoardGroupServiceServer
 // for forward compatibility
 type BoardGroupServiceServer interface {
-	GetAllBoards(context.Context, *emptypb.Empty) (*BoardGroupsInfo, error)
+	GetAllBoardGroups(context.Context, *emptypb.Empty) (*BoardGroupsInfo, error)
 	GetBoardId(context.Context, *GetBoardGroupRequest) (*GetBoardGroupResponse, error)
 	CreateBoardGroup(context.Context, *CreateBoardGroupRequest) (*CreateBoardGroupResponse, error)
 	UpdateBoardGroup(context.Context, *UpdateBoardGroupRequest) (*UpdateBoardGroupResponse, error)
@@ -99,8 +99,8 @@ type BoardGroupServiceServer interface {
 type UnimplementedBoardGroupServiceServer struct {
 }
 
-func (UnimplementedBoardGroupServiceServer) GetAllBoards(context.Context, *emptypb.Empty) (*BoardGroupsInfo, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAllBoards not implemented")
+func (UnimplementedBoardGroupServiceServer) GetAllBoardGroups(context.Context, *emptypb.Empty) (*BoardGroupsInfo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllBoardGroups not implemented")
 }
 func (UnimplementedBoardGroupServiceServer) GetBoardId(context.Context, *GetBoardGroupRequest) (*GetBoardGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBoardId not implemented")
@@ -127,20 +127,20 @@ func RegisterBoardGroupServiceServer(s grpc.ServiceRegistrar, srv BoardGroupServ
 	s.RegisterService(&BoardGroupService_ServiceDesc, srv)
 }
 
-func _BoardGroupService_GetAllBoards_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _BoardGroupService_GetAllBoardGroups_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BoardGroupServiceServer).GetAllBoards(ctx, in)
+		return srv.(BoardGroupServiceServer).GetAllBoardGroups(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/board_group.BoardGroupService/GetAllBoards",
+		FullMethod: "/board_group.BoardGroupService/GetAllBoardGroups",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BoardGroupServiceServer).GetAllBoards(ctx, req.(*emptypb.Empty))
+		return srv.(BoardGroupServiceServer).GetAllBoardGroups(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -225,8 +225,8 @@ var BoardGroupService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*BoardGroupServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetAllBoards",
-			Handler:    _BoardGroupService_GetAllBoards_Handler,
+			MethodName: "GetAllBoardGroups",
+			Handler:    _BoardGroupService_GetAllBoardGroups_Handler,
 		},
 		{
 			MethodName: "GetBoardId",
